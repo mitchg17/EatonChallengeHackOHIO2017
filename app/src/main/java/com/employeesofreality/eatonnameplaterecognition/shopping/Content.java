@@ -1,5 +1,7 @@
 package com.employeesofreality.eatonnameplaterecognition.shopping;
 
+import com.employeesofreality.eatonnameplaterecognition.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,31 +16,25 @@ import java.util.Map;
 public class Content {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of sample items.
      */
     public static final List<Item> ITEMS = new ArrayList<Item>();
 
     /**
-     * A map of sample (dummy) items, by ID.
+     * A map of sample items, by ID.
      */
     public static final Map<String, Item> ITEM_MAP = new HashMap<String, Item>();
 
-    private static final int COUNT = 25;
+    private static final int COUNT = 10;
 
-    static {
-        // Add some sample items.
-        for (int i = 1; i <= COUNT; i++) {
-            addItem(createItem(i));
-        }
-    }
 
     private static void addItem(Item item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
+        //ITEM_MAP.put(item.id, item);
     }
 
-    private static Item createItem(int position) {
-        return new Item(String.valueOf(position), "Item " + position, makeDetails(position));
+    private static Item createItem(HashMap<String,String> map) {
+        return new Item(map);
     }
 
     private static String makeDetails(int position) {
@@ -51,22 +47,30 @@ public class Content {
     }
 
     /**
-     * A dummy item representing a piece of content.
+     * An item representing a piece of content.
      */
     public static class Item {
-        public final String id;
-        public final String content;
-        public final String details;
+        static final String[] fields = {"Brand","Catalog #","Order #","Range", "Voltage", "Serial #","Unit #","Manufacturing Date","Manufacturing Location","Physical Location","Drawing #"};
+        public final boolean isChecked;
+        HashMap<String,String> values;
 
-        public Item(String id, String content, String details) {
-            this.id = id;
-            this.content = content;
-            this.details = details;
+        public Item(HashMap<String,String> map) {
+            isChecked = false;
+
+            for(String temp : fields) {
+                if(map.containsKey(temp)) {
+                    values.put(temp,map.get(temp));
+                }
+                else
+                {
+                    values.put(temp,"");
+                }
+            }
         }
 
         @Override
         public String toString() {
-            return content;
+            return "TODO";
         }
     }
 }

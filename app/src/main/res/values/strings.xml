@@ -25,6 +25,22 @@
     <string name="ocr_failure">No text captured</string>
 
     <string name="ocr_error">"Error reading text: %1$s"</string>
+    <string name="action_manual">"Manual Entry"</string>
+    <string name="action_clear">Clear</string>
+    <string name="action_export">Export</string>
+    <string-array name="fields">
+        <item>Brand</item>
+        <item>Catalog #</item>
+        <item>Order #</item>
+        <item>Range</item>
+        <item>Voltage</item>
+        <item>Serial #</item>
+        <item>Unit #</item>
+        <item>Manufacturing Date</item>
+        <item>Manufacturing Location</item>
+        <item>Physical Location</item>
+        <item>Drawing #</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

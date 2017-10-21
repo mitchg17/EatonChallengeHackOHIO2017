@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -87,8 +90,22 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_settings)
+        {
             return true;
+        }
+        else if(id == R.id.action_manual)
+        {
+            Intent intent = new Intent(this,infoActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_clear)
+        {
+
+        }
+        else if(id == R.id.action_export)
+        {
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -131,6 +148,12 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
                 textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+    /*
+    Responds to checkboxes in shopping list
+     */
+    public void onCheckboxClicked(View view) {
+
     }
 
     /**

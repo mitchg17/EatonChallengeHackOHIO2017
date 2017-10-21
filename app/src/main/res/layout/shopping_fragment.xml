@@ -10,4 +10,6 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.employeesofreality.eatonnameplaterecognition.shoppingFragment"
-    tools:listitem="@layout/shopping_item" />
+    tools:listitem="@layout/shopping_item">
+
+</android.support.v7.widget.RecyclerView>
