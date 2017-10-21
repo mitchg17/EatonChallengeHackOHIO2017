@@ -40,6 +40,7 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
@@ -322,10 +323,16 @@ public final class OcrCaptureFragment extends Fragment {
         OcrGraphic graphic = mGraphicOverlay.getGraphicAtLocation(rawX, rawY);
         TextBlock text = null;
         if (graphic != null) {
-            text = graphic.getTextBlock();
-            if (text != null && text.getValue() != null) {
+            HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
+            StringBuilder sb = new StringBuilder();
+            for(OcrGraphic e: graphics){
+                sb.append(graphic.getTextBlock().getValue() + " ");
+            }
+            String content = sb.toString();
+
+            if (text != null && text.getValue()!= null) {
                 Intent data = new Intent();
-                data.putExtra(TextBlockObject, text.getValue());
+                data.putExtra(TextBlockObject, content);
                 getActivity().setResult(CommonStatusCodes.SUCCESS, data);
                 getActivity().finish();
             }
