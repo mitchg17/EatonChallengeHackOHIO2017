@@ -14,6 +14,7 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -108,6 +109,14 @@ public final class OcrCaptureFragment extends Fragment {
         Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
+
+        FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                generateOutput();
+            }
+        });
 
     }
 
@@ -347,6 +356,15 @@ public final class OcrCaptureFragment extends Fragment {
             Log.d(TAG,"no text detected");
         }
         return text != null;
+    }
+
+    private void generateOutput(){
+        HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
+        StringBuilder sb = new StringBuilder();
+        for(OcrGraphic e: graphics){
+            sb.append(e.getTextBlock().getValue() + " ");
+        }
+        String content = sb.toString();
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
