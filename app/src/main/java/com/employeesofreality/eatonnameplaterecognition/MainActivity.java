@@ -151,13 +151,16 @@ public class MainActivity extends AppCompatActivity {
             if(position == 0) {
                 return new OcrCaptureFragment();
             }
+            else if(position == 1) {
+                //return new shoppingFragment();
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // Show 2 total pages.
+            return 2;
         }
 
         @Override
