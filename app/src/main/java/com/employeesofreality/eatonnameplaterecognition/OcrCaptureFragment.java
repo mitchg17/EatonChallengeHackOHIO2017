@@ -13,14 +13,19 @@ import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
@@ -41,8 +46,8 @@ import java.io.IOException;
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and contents of each TextBlock.
  */
-public final class OcrCaptureActivity extends AppCompatActivity {
-    private static final String TAG = "OcrCaptureActivity";
+public final class OcrCaptureFragment extends Fragment {
+    private static final String TAG = "OcrCaptureFragment";
 
     // Intent request code to handle updating play services if needed.
     private static final int RC_HANDLE_GMS = 9001;
@@ -63,36 +68,44 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    public OcrCaptureFragment() {
+        super();
+    }
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
     @Override
-    public void onCreate(Bundle icicle) {
-        super.onCreate(icicle);
-        setContentView(R.layout.camera_preview);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.camera_preview, container, false);
+    }
 
-        mPreview = (CameraSourcePreview) findViewById(R.id.preview);
-        mGraphicOverlay = (GraphicOverlay<OcrGraphic>) findViewById(R.id.graphicOverlay);
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mPreview = (CameraSourcePreview) this.getActivity().findViewById(R.id.preview);
+        mGraphicOverlay = (GraphicOverlay<OcrGraphic>) this.getActivity().findViewById(R.id.graphicOverlay);
 
         // read parameters from the intent used to launch the activity.
-        boolean autoFocus = getIntent().getBooleanExtra(AutoFocus, false);
-        boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+        boolean autoFocus = false;
+        boolean useFlash = false;
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
-        int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
+        int rc = ActivityCompat.checkSelfPermission(this.getActivity(), Manifest.permission.CAMERA);
         if (rc == PackageManager.PERMISSION_GRANTED) {
             createCameraSource(autoFocus, useFlash);
         } else {
             requestCameraPermission();
         }
 
-        gestureDetector = new GestureDetector(this, new CaptureGestureListener());
-        scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
+        gestureDetector = new GestureDetector(this.getActivity(), new CaptureGestureListener());
+        scaleGestureDetector = new ScaleGestureDetector(this.getActivity(), new ScaleListener());
 
         Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
+
     }
 
     /**
@@ -105,13 +118,13 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         final String[] permissions = new String[]{Manifest.permission.CAMERA};
 
-        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this.getActivity(),
                 Manifest.permission.CAMERA)) {
-            ActivityCompat.requestPermissions(this, permissions, RC_HANDLE_CAMERA_PERM);
+            ActivityCompat.requestPermissions(this.getActivity(), permissions, RC_HANDLE_CAMERA_PERM);
             return;
         }
 
-        final Activity thisActivity = this;
+        final Activity thisActivity = this.getActivity();
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -127,13 +140,12 @@ public final class OcrCaptureActivity extends AppCompatActivity {
                 .show();
     }
 
-    @Override
     public boolean onTouchEvent(MotionEvent e) {
         boolean b = scaleGestureDetector.onTouchEvent(e);
 
         boolean c = gestureDetector.onTouchEvent(e);
 
-        return b || c || super.onTouchEvent(e);
+        return b || c || getActivity().onTouchEvent(e);
     }
 
     /**
@@ -146,7 +158,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      */
     @SuppressLint("InlinedApi")
     private void createCameraSource(boolean autoFocus, boolean useFlash) {
-        Context context = getApplicationContext();
+        Context context = this.getActivity().getApplicationContext();
 
         // A text recognizer is created to find text.  An associated processor instance
         // is set to receive the text recognition results and display graphics for each text block
@@ -169,10 +181,10 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             // Check for low storage.  If there is low storage, the native library will not be
             // downloaded, so detection will not become operational.
             IntentFilter lowstorageFilter = new IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW);
-            boolean hasLowStorage = registerReceiver(null, lowstorageFilter) != null;
+            boolean hasLowStorage = this.getActivity().registerReceiver(null, lowstorageFilter) != null;
 
             if (hasLowStorage) {
-                Toast.makeText(this, R.string.low_storage_error, Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getActivity(), R.string.low_storage_error, Toast.LENGTH_LONG).show();
                 Log.w(TAG, getString(R.string.low_storage_error));
             }
         }
@@ -180,7 +192,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         // Creates and starts the camera.  Note that this uses a higher resolution in comparison
         // to other detection examples to enable the text recognizer to detect small pieces of text.
         mCameraSource =
-                new CameraSource.Builder(getApplicationContext(), textRecognizer)
+                new CameraSource.Builder(this.getActivity().getApplicationContext(), textRecognizer)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedPreviewSize(1280, 1024)
                 .setRequestedFps(2.0f)
@@ -193,7 +205,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * Restarts the camera.
      */
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         startCameraSource();
     }
@@ -202,7 +214,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * Stops the camera.
      */
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         if (mPreview != null) {
             mPreview.stop();
@@ -214,7 +226,7 @@ public final class OcrCaptureActivity extends AppCompatActivity {
      * rest of the processing pipeline.
      */
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         if (mPreview != null) {
             mPreview.release();
@@ -250,8 +262,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // We have permission, so create the camerasource
-            boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
-            boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+            boolean autoFocus = false;
+            boolean useFlash = false;
             createCameraSource(autoFocus, useFlash);
             return;
         }
@@ -261,11 +273,11 @@ public final class OcrCaptureActivity extends AppCompatActivity {
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                finish();
+                getActivity().finish();
             }
         };
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.getActivity());
         builder.setTitle("Multitracker sample")
                 .setMessage(R.string.no_camera_permission)
                 .setPositiveButton(R.string.ok, listener)
@@ -280,10 +292,10 @@ public final class OcrCaptureActivity extends AppCompatActivity {
     private void startCameraSource() throws SecurityException {
         // Check that the device has play services available.
         int code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(
-                getApplicationContext());
+                getActivity().getApplicationContext());
         if (code != ConnectionResult.SUCCESS) {
             Dialog dlg =
-                    GoogleApiAvailability.getInstance().getErrorDialog(this, code, RC_HANDLE_GMS);
+                    GoogleApiAvailability.getInstance().getErrorDialog(this.getActivity(), code, RC_HANDLE_GMS);
             dlg.show();
         }
 
@@ -314,8 +326,8 @@ public final class OcrCaptureActivity extends AppCompatActivity {
             if (text != null && text.getValue() != null) {
                 Intent data = new Intent();
                 data.putExtra(TextBlockObject, text.getValue());
-                setResult(CommonStatusCodes.SUCCESS, data);
-                finish();
+                getActivity().setResult(CommonStatusCodes.SUCCESS, data);
+                getActivity().finish();
             }
             else {
                 Log.d(TAG, "text data is null");

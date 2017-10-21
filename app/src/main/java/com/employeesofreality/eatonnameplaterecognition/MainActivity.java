@@ -1,21 +1,10 @@
 package com.employeesofreality.eatonnameplaterecognition;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.hardware.Camera;
-import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -24,27 +13,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.employeesofreality.eatonnameplaterecognition.ui.camera.CameraSource;
-import com.employeesofreality.eatonnameplaterecognition.ui.camera.CameraSourcePreview;
-import com.employeesofreality.eatonnameplaterecognition.ui.camera.GraphicOverlay;
-import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrDetectorProcessor;
-import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.vision.text.TextRecognizer;
-
 
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -93,11 +69,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent = new Intent(this, OcrCaptureActivity.class);
-        intent.putExtra(OcrCaptureActivity.AutoFocus, false);
-        intent.putExtra(OcrCaptureActivity.UseFlash, false);
-
-        startActivityForResult(intent, RC_OCR_CAPTURE);
+//        Intent intent = new Intent(this, OcrCaptureFragment.class);
+//        intent.putExtra(OcrCaptureFragment.AutoFocus, false);
+//        intent.putExtra(OcrCaptureFragment.UseFlash, false);
+//
+//        startActivityForResult(intent, RC_OCR_CAPTURE);
 
     }
 
@@ -151,13 +127,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.camera_preview, container, false);
-
-            if(getArguments().getInt(ARG_SECTION_NUMBER) != 1) {
-                rootView = inflater.inflate(R.layout.fragment_main, container, false);
+                View rootView = inflater.inflate(R.layout.fragment_main, container, false);
                 TextView textView = (TextView) rootView.findViewById(R.id.section_label);
                 textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            }
             return rootView;
         }
     }
@@ -176,6 +148,9 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
+            if(position == 0) {
+                return new OcrCaptureFragment();
+            }
             return PlaceholderFragment.newInstance(position + 1);
         }
 
