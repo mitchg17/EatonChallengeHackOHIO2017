@@ -48,6 +48,8 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int RC_OCR_CAPTURE = 9003;
+
     private static final String TAG = "MainActivity";
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -91,9 +93,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Intent intent = new Intent(this, OcrCaptureActivity.class);
+        intent.putExtra(OcrCaptureActivity.AutoFocus, false);
+        intent.putExtra(OcrCaptureActivity.UseFlash, false);
+
+        startActivityForResult(intent, RC_OCR_CAPTURE);
+
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
