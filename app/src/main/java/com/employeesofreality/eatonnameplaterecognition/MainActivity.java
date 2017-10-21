@@ -70,13 +70,6 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
                         .setAction("Action", null).show();
             }
         });
-
-//        Intent intent = new Intent(this, OcrCaptureFragment.class);
-//        intent.putExtra(OcrCaptureFragment.AutoFocus, false);
-//        intent.putExtra(OcrCaptureFragment.UseFlash, false);
-//
-//        startActivityForResult(intent, RC_OCR_CAPTURE);
-
     }
 
     @Override
