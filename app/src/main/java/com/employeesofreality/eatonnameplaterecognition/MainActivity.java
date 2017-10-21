@@ -22,7 +22,9 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
+
+public class MainActivity extends AppCompatActivity implements shoppingFragment.OnListFragmentInteractionListener {
 
     private static final int RC_OCR_CAPTURE = 9003;
 
@@ -99,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onListFragmentInteraction(Content.Item item) {
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -152,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                 return new OcrCaptureFragment();
             }
             else if(position == 1) {
-                //return new shoppingFragment();
+                return new shoppingFragment();
             }
             return PlaceholderFragment.newInstance(position + 1);
         }

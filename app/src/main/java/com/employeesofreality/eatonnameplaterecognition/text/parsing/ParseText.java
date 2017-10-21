@@ -6,7 +6,7 @@ package com.employeesofreality.eatonnameplaterecognition.text.parsing;
 
 public class ParseText {
 
-    public ParseText(textblock){
+    public ParseText(String textblock){
 
     }
 }
