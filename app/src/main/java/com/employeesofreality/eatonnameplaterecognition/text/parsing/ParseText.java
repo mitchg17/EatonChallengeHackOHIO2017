@@ -96,11 +96,13 @@ public class ParseText {
                         for (String str : categories.keySet()) {
                             HashSet<String> temp = categories.get(str);
                             if (temp.contains(keyW)) {
-                                if (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("no.") || tokens.get(i + 1).equalsIgnoreCase("Ref.")) {
-                                    i++;
-                                    if (str.equalsIgnoreCase("OrderNumber")) {
+                                if (str.equalsIgnoreCase("OrderNumber")) {
+                                    if (tokens.get(i + 1).equalsIgnoreCase("order")) {
                                         i++;
                                     }
+                                }
+                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("no.") || tokens.get(i + 1).equalsIgnoreCase("ref.")) {
+                                    i++;
                                 }
                                 i++;
                                 values.put(str, tokens.get(i));
