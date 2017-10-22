@@ -26,6 +26,8 @@ import android.widget.TextView;
 
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity implements shoppingFragment.OnListFragmentInteractionListener {
 
     private static final int RC_OCR_CAPTURE = 9003;
@@ -93,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         }
         else if(id == R.id.action_clear)
         {
-
+            Content.ITEMS = new ArrayList<Content.Item>();
         }
         else if(id == R.id.action_export)
         {
@@ -104,7 +106,9 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
     }
 
     public void onListFragmentInteraction(Content.Item item) {
-
+        Intent intent = new Intent(this,infoActivity.class);
+        intent.putExtra("ITEM",item);
+        startActivity(intent);
     }
 
     /**

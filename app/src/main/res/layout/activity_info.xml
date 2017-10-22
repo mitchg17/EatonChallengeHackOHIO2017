@@ -1,21 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.employeesofreality.eatonnameplaterecognition.infoActivity">
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="304dp"
-        android:layout_height="437dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:rowCount="2"
-        android:columnCount="11">
+    tools:context="com.employeesofreality.eatonnameplaterecognition.infoActivity"
+    android:orientation="vertical">
 
-    </GridLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView android:text="Brand: "
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <EditText android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/Brand_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Catalog #: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/CatalogNumber_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Order #: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/OrderNumber_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Range: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Range_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Voltage: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Voltage_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Serial #: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/serial_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Unit #: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/UnitNumber_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Manufacturing Date: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ManufacturingDate_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Manufacturing Location: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ManufacturingLocation_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Physical Location: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/PhysicalLocation_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:text="Drawing #: "
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/DrawingNumber_field"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:onClick="buttonClick"
+            android:id="@+id/save_button"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Documentation"
+            android:id="@+id/doc_button"
+            android:onClick="buttonClick"/>
+    </LinearLayout>
 
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

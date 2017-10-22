@@ -2,6 +2,7 @@ package com.employeesofreality.eatonnameplaterecognition.shopping;
 
 import com.employeesofreality.eatonnameplaterecognition.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ public class Content {
     /**
      * An array of sample items.
      */
-    public static final List<Item> ITEMS = new ArrayList<Item>();
+    public static List<Item> ITEMS = new ArrayList<Item>();
 
     /**
      * A map of sample items, by ID.
@@ -49,13 +50,14 @@ public class Content {
     /**
      * An item representing a piece of content.
      */
-    public static class Item {
-        static final String[] fields = {"Brand","Catalog #","Order #","Range", "Voltage", "Serial #","Unit #","Manufacturing Date","Manufacturing Location","Physical Location","Drawing #"};
+    public static class Item implements Serializable{
+        public static final String[] fields = {"Brand","CatalogNumber","OrderNumber","Range", "Voltage", "SerialNumber","UnitNumber","ManufacturingDate","ManufacturingLocation","PhysicalLocation","DrawingNumber"};
         public final boolean isChecked;
-        HashMap<String,String> values;
+        public HashMap<String,String> values;
 
         public Item(HashMap<String,String> map) {
             isChecked = false;
+            values = new HashMap<String,String>();
 
             for(String temp : fields) {
                 if(map.containsKey(temp)) {
