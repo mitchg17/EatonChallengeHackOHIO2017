@@ -29,11 +29,11 @@ public class ParseText {
             "Serial#", "Serial", "Unit Number", "Unit no.", "Unit#", "Unit", "Manufacturing Date", "Mfg Date", "Drawing Ref"};
 
 
-    public static HashMap<String, String> parseArray(ArrayList<OcrGraphic> mixedUp) {
+    public static HashMap<String, String> parseArray(ArrayList<OcrGraphic> sortedTextBlocks) {
         HashMap<String, String> values = new HashMap<String, String>();
         StringBuilder sb = new StringBuilder();
-        for(int i = 0;i < mixedUp.size(); i++){
-            sb.append(mixedUp.get(i).getTextBlock().getValue() + " ");
+        for(int i = 0;i < sortedTextBlocks.size(); i++){
+            sb.append(sortedTextBlocks.get(i).getTextBlock().getValue() + " ");
         }
         String fullText = sb.toString();
 
@@ -41,11 +41,11 @@ public class ParseText {
         values.put("PhysicalLocation", address);
 
         Tokenizer tokenizer = new Tokenizer(fullText);
-        for(int i = 0; i < mixedUp.size(); i++) {
-            OcrGraphic ocrg = mixedUp.get(i);
+        for(int i = 0; i < sortedTextBlocks.size(); i++) {
+            OcrGraphic ocrg = sortedTextBlocks.get(i);
             TextBlock tb = ocrg.getTextBlock();
-            float brandChance = ((float)(mixedUp.get(i).getTextBlock().getCornerPoints()[0].y - mixedUp.get(0).getTextBlock().getCornerPoints()[0].y)/
-                    ((float)mixedUp.get(mixedUp.size()-1).getTextBlock().getCornerPoints()[2].y));
+            float brandChance = ((float)(sortedTextBlocks.get(i).getTextBlock().getCornerPoints()[0].y - sortedTextBlocks.get(0).getTextBlock().getCornerPoints()[0].y)/
+                    ((float)sortedTextBlocks.get(sortedTextBlocks.size()-1).getTextBlock().getCornerPoints()[2].y));
             parseTextBlock(tb, values, brandChance);
         }
 
