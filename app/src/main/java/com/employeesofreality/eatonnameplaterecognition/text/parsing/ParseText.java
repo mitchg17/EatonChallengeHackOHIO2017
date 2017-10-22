@@ -1,5 +1,7 @@
 package com.employeesofreality.eatonnameplaterecognition.text.parsing;
 
+import android.util.Log;
+
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
 import com.google.android.gms.vision.text.TextBlock;
 

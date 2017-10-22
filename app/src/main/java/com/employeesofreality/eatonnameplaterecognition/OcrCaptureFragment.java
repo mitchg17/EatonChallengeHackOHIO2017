@@ -19,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Pair;
@@ -49,6 +50,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
@@ -56,8 +58,7 @@ import java.util.Map;
  * size, and contents of each TextBlock.
  */
 public final class OcrCaptureFragment extends Fragment {
-    public static final int PHOTOS_TO_CAPTURE = 3;
-    public static final int PHOTO_DELAY_TIME = 500;
+    public static Set<ArrayList<OcrGraphic>> gSet = new HashSet<>();
 
     private static final String TAG = "OcrCaptureFragment";
 
@@ -81,7 +82,9 @@ public final class OcrCaptureFragment extends Fragment {
     private GestureDetector gestureDetector;
 
     private boolean flashOn = false;
+    FloatingActionButton processPhotosButton;
     private FloatingActionButton flashButton;
+    private FloatingActionButton takePhotoButton;
     private OcrDetectorProcessor ocrDetectorProcessor;
 
     public OcrCaptureFragment() {
@@ -128,8 +131,8 @@ public final class OcrCaptureFragment extends Fragment {
         gestureDetector = new GestureDetector(this.getActivity(), new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this.getActivity(), new ScaleListener());
 
-        FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+         processPhotosButton = (FloatingActionButton) this.getActivity().findViewById(R.id.process_photos);
+         processPhotosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(OcrCaptureFragment.this.getContext(), infoActivity.class);
@@ -145,6 +148,38 @@ public final class OcrCaptureFragment extends Fragment {
                 toggleFlash();
             }
         });
+
+        takePhotoButton = (FloatingActionButton) this.getActivity().findViewById(R.id.take_photo);
+        takePhotoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takePhoto();
+            }
+        });
+
+        if(gSet.size() > 0) {
+            this.getActivity().findViewById(R.id.process_photos).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void takePhoto() {
+        HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
+        ArrayList<OcrGraphic> gArray = new ArrayList<>();
+
+        for (OcrGraphic e : graphics) {
+            gArray.add(e);
+        }
+
+        Collections.sort(gArray);
+
+        gSet.add(gArray);
+
+        Fragment frg = null;
+        frg = getFragmentManager().findFragmentByTag(this.getTag());
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(frg);
+        ft.attach(frg);
+        ft.commit();
     }
 
     //TODO: mitch's laptop doesn't have a flash and for some reason he thought it was a good idea to try to enable the flash on his laptop that doesn't have a flash
@@ -405,24 +440,9 @@ public final class OcrCaptureFragment extends Fragment {
         HashSet<HashMap<String, String>> textSet = new HashSet<>();
         HashMap<String, String> output = new HashMap<>();
 
-        for(int i = 0; i < PHOTOS_TO_CAPTURE; i++) {
-            HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
-            ArrayList<OcrGraphic> gArray = new ArrayList<>();
-
-            for (OcrGraphic e : graphics) {
-                gArray.add(e);
-            }
-
-            Collections.sort(gArray);
-            HashMap<String, String> parsedText = ParseText.parseArray(gArray);
+        for(ArrayList<OcrGraphic> graphic : gSet) {
+            HashMap<String, String> parsedText = ParseText.parseArray(graphic);
             textSet.add(parsedText);
-            startCameraSource();
-            
-            try {
-                Thread.sleep(PHOTO_DELAY_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
 
         findMostRecurringValues(textSet, output);
