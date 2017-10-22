@@ -34,6 +34,7 @@ public class ParseText {
             sb.append(mixedUp.get(i).getTextBlock().getValue() + " ");
         }
         String fullText = sb.toString();
+
         Tokenizer tokenizer = new Tokenizer(fullText);
         for(int i = 0; i < mixedUp.size(); i++) {
             OcrGraphic ocrg = mixedUp.get(i);

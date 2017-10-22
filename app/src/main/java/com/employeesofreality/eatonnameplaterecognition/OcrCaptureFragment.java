@@ -131,13 +131,11 @@ public final class OcrCaptureFragment extends Fragment {
         gestureDetector = new GestureDetector(this.getActivity(), new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this.getActivity(), new ScaleListener());
 
-         processPhotosButton = (FloatingActionButton) this.getActivity().findViewById(R.id.process_photos);
-         processPhotosButton.setOnClickListener(new View.OnClickListener() {
+        processPhotosButton = (FloatingActionButton) this.getActivity().findViewById(R.id.process_photos);
+        processPhotosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(OcrCaptureFragment.this.getContext(), infoActivity.class);
-                intent.putExtra("ITEM", new Content.Item(generateOutput()));
-                startActivity(intent);
+                processPhotos();
             }
         });
 
@@ -160,6 +158,13 @@ public final class OcrCaptureFragment extends Fragment {
         if(gSet.size() > 0) {
             this.getActivity().findViewById(R.id.process_photos).setVisibility(View.VISIBLE);
         }
+    }
+
+    private void processPhotos() {
+        gSet.clear();
+        Intent intent = new Intent(OcrCaptureFragment.this.getContext(), infoActivity.class);
+        intent.putExtra("ITEM", new Content.Item(generateOutput()));
+        startActivity(intent);
     }
 
     private void takePhoto() {
