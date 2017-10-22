@@ -69,6 +69,7 @@ public class ParseText {
         categories.put("SerialNumber",s5);
         //categories.put("UnitNumber",s6);
         categories.put("DrawingNumber",s8);
+        //categories.put("ManufacturingDate",s7);
 
         HashSet<String> subsids = new HashSet<>();
         subsids.add("UNIVAR");
@@ -91,6 +92,8 @@ public class ParseText {
             }
             if(tokens.get(i).toUpperCase().matches("([0-9])+([A-N,P-Z])") && !values.containsKey("UnitNumber")){
                 values.put("UnitNumber", tokens.get(i));
+            } else if(tokens.get(i).toUpperCase().matches("([0-9]{1,2}[\\/][0-9]{4})") && !values.containsKey("ManufacturingDate")) {
+                values.put("ManufacturingDate", tokens.get(i));
             }
 
             for(String cat: categories.keySet()){
