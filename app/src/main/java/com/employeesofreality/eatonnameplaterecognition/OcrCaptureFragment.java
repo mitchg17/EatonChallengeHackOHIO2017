@@ -140,6 +140,7 @@ public final class OcrCaptureFragment extends Fragment {
         });
     }
 
+    //TODO: mitch's laptop doesn't have a flash and for some reason he thought it was a good idea to try to enable the flash on his laptop that doesn't have a flash
     private void toggleFlash() {
         if(flashOn) {
             flashOn = false;
