@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Toast;
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 import com.employeesofreality.eatonnameplaterecognition.text.parsing.ParseText;
@@ -297,6 +298,7 @@ public final class OcrCaptureFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        this.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         startCameraSource();
     }
 
@@ -306,6 +308,9 @@ public final class OcrCaptureFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        if(this.getActivity() != null) {
+            this.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        }
         if (mPreview != null) {
             mPreview.stop();
         }
