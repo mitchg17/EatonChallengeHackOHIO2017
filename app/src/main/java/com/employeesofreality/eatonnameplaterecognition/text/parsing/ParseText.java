@@ -19,7 +19,7 @@ import java.util.Map;
 public class ParseText {
 
     private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
-            "GENERAL", "GO#", "GOH","GO", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "SERIAL","SER",
+            "GENERAL", "GO#", "GOH","GO","GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "SERIAL","SER",
             "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM","SIN"));
 
     private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
@@ -56,6 +56,7 @@ public class ParseText {
                             i++;
                         }
                     case "GO":
+                    case "GOR":
                     case "GO#":
                     case "GOH":
                     case "PO#":
