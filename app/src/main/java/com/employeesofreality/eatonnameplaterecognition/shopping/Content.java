@@ -28,11 +28,13 @@ public class Content {
 
     private static final int COUNT = 10;
 
-    public static void addAnItem(Item item) {
-        addItem(item);
+    public static void removeAnItem(Item item) {
+        ITEMS.remove(item);
+        ITEM_MAP.remove(Integer.toString(item.hashCode()));
     }
 
-    private static void addItem(Item item) {
+
+    public static void addAnItem(Item item) {
         ITEMS.add(item);
         ITEM_MAP.put(Integer.toString(item.hashCode()), item);
     }
@@ -58,6 +60,9 @@ public class Content {
         public final boolean isChecked;
         public HashMap<String,String> values;
 
+        public String id;
+        public String content;
+
         public Item(HashMap<String,String> map) {
             isChecked = false;
             values = new HashMap<String,String>();
@@ -71,6 +76,8 @@ public class Content {
                     values.put(temp,"");
                 }
             }
+            id = values.get("Brand");
+            content = values.get("OrderNumber");
         }
 
 

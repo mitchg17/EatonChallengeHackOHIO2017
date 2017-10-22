@@ -95,7 +95,8 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         }
         else if(id == R.id.action_clear)
         {
-            Content.ITEMS = new ArrayList<Content.Item>();
+
+
         }
         else if(id == R.id.action_export)
         {
@@ -109,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         Intent intent = new Intent(this,infoActivity.class);
         intent.putExtra("ITEM",item);
         startActivity(intent);
+
+        Content.removeAnItem(item);
     }
 
     /**

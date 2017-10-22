@@ -132,6 +132,12 @@
             android:text="Documentation"
             android:id="@+id/doc_button"
             android:onClick="buttonClick"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete"
+            android:id="@+id/delete_button"
+            android:onClick="buttonClick"/>
     </LinearLayout>
 
 </LinearLayout>

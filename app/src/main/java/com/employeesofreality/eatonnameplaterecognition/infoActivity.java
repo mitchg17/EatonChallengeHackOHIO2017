@@ -1,6 +1,8 @@
 package com.employeesofreality.eatonnameplaterecognition;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,16 +32,14 @@ public class infoActivity extends AppCompatActivity {
         {
             part = new Content.Item(new HashMap<String,String>());
         }
-        /*
-        if(bundledItem != null && !bundledItem.isEmpty())
-        {
-            part = (Content.Item)(bundledItem.get("ITEM"));
+
+        for(String temp : Content.Item.fields) {
+
+            String strID = "@id/" + temp + "_field";
+            int intID = super.getResources().getIdentifier(strID, "id", super.getPackageName());
+            EditText edit = (EditText)findViewById(intID);
+            edit.setText(part.values.get(temp));
         }
-        else
-        {
-            part = null;
-        }
-        */
     }
 
     public void buttonClick(View view) {
@@ -65,8 +65,31 @@ public class infoActivity extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
-        else if(id == R.id.doc_button) {
+        else if(id == R.id.doc_button)
+        {
 
+        }
+        else if(id == R.id.delete_button)
+        {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Content.removeAnItem(part);
+                            Intent intent = new Intent(infoActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(infoActivity.this);
+            builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         }
     }
 }

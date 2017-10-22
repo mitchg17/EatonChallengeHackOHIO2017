@@ -28,6 +28,7 @@
     <string name="action_manual">"Manual Entry"</string>
     <string name="action_clear">Clear</string>
     <string name="action_export">Export</string>
+    <string name="action_delete">Delete Checked</string>
     <string-array name="fields">
         <item>Brand</item>
         <item>Catalog #</item>
