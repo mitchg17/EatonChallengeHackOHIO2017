@@ -107,7 +107,7 @@ public class ParseText {
                                         i++;
                                     }
                                 }
-                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref") || tokens.get(i + 1).equalsIgnoreCase("ret")) {
+                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref") || tokens.get(i + 1).equalsIgnoreCase("ret") || tokens.get(i + 1).equalsIgnoreCase("rel")) {
                                     i++;
                                 }
                                 i++;
