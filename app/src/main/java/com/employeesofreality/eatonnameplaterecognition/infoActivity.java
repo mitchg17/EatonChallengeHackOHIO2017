@@ -3,6 +3,7 @@ package com.employeesofreality.eatonnameplaterecognition;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -22,6 +23,7 @@ public class infoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.hasExtra("ITEM"))
         {
+            Log.v("infoActivity", "you a bitch");
             part = (Content.Item)(intent.getSerializableExtra("ITEM"));
         }
         else
