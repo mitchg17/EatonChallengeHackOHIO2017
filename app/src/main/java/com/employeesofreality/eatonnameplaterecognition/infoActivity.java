@@ -30,16 +30,14 @@ public class infoActivity extends AppCompatActivity {
         {
             part = new Content.Item(new HashMap<String,String>());
         }
-        /*
-        if(bundledItem != null && !bundledItem.isEmpty())
-        {
-            part = (Content.Item)(bundledItem.get("ITEM"));
+
+        for(String temp : Content.Item.fields) {
+
+            String strID = "@id/" + temp + "_field";
+            int intID = super.getResources().getIdentifier(strID, "id", super.getPackageName());
+            EditText edit = (EditText)findViewById(intID);
+            edit.setText(part.values.get(temp));
         }
-        else
-        {
-            part = null;
-        }
-        */
     }
 
     public void buttonClick(View view) {

@@ -78,7 +78,7 @@ public class shoppingFragment extends Fragment {
     public void clear() {
         Content.ITEMS = new ArrayList<Item>();
         Content.ITEM_MAP.clear();
-        getAdapter().notifyDataSetChanged();
+        //getAdapter().notifyDataSetChanged();
     }
 
 

@@ -58,6 +58,9 @@ public class Content {
         public final boolean isChecked;
         public HashMap<String,String> values;
 
+        public String id;
+        public String content;
+
         public Item(HashMap<String,String> map) {
             isChecked = false;
             values = new HashMap<String,String>();
@@ -71,6 +74,8 @@ public class Content {
                     values.put(temp,"");
                 }
             }
+            id = values.get("Brand");
+            content = values.get("OrderNumber");
         }
 
 

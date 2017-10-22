@@ -35,9 +35,27 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        //holder.mItem = mValues.get(position);
+        holder.mItem = mValues.get(position);
         //holder.mIdView.setText(mValues.get(position).id);
-        //holder.mContentView.setText(mValues.get(position).content);
+        /*
+        if(!mValues.get(position).values.get("CatalogNumber").equals(""))
+        {
+            holder.mContentView.setText(mValues.get(position).values.get("CatalogNumber"));
+        }
+        else if(!mValues.get(position).values.get("OrderNumber").equals(""))
+        {
+            holder.mContentView.setText(mValues.get(position).values.get("OrderNumber"));
+        }
+        else if(!mValues.get(position).values.get("SerialNumber").equals(""))
+        {
+            holder.mContentView.setText(mValues.get(position).values.get("SerialNumber"));
+        }
+        else
+        {
+
+        }
+        */
+        holder.mContentView.setText("Part " + (int)(position+1));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,14 +76,14 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        //public final TextView mIdView;
+        public final TextView mIdView;
         public final TextView mContentView;
         public Item mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            //mIdView = (TextView) view.findViewById(R.id.id);
+            mIdView = null;//(TextView) view.findViewById(R.id.id);
             mContentView = (TextView) view.findViewById(R.id.content);
         }
 
