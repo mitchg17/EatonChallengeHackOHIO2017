@@ -457,7 +457,9 @@ public final class OcrCaptureFragment extends Fragment {
             for(Map.Entry<String, Integer> valueCount : countEntry.getValue().entrySet()) {
                 if(valueCount.getValue() > maxCount) {
                     maxCount = valueCount.getValue();
-                    value = valueCount.getKey();
+                    if(!valueCount.getKey().equals("")) {
+                        value = valueCount.getKey();
+                    }
                 }
             }
             output.put(key, value);
