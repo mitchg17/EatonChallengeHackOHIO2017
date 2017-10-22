@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.employeesofreality.eatonnameplaterecognition.infoActivity"
+    android:layout_height="match_parent" android:layout_width="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.employeesofreality.eatonnameplaterecognition.infoActivity"
-    android:orientation="vertical">
+
+    android:orientation="vertical"
+    android:scrollbars="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -152,3 +157,4 @@
     </LinearLayout>
 
 </LinearLayout>
+</ScrollView>
