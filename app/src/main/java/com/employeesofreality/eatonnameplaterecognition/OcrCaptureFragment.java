@@ -24,6 +24,7 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
+import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -43,6 +44,7 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -54,7 +56,7 @@ import java.util.Set;
  * size, and contents of each TextBlock.
  */
 public final class OcrCaptureFragment extends Fragment {
-    public static Set<ArrayList<OcrGraphic>> gSet = new HashSet<>();
+    public static ArrayList<ArrayList<OcrGraphic>> gSet = new ArrayList<>();
 
     private static final String TAG = "OcrCaptureFragment";
 
@@ -163,17 +165,89 @@ public final class OcrCaptureFragment extends Fragment {
         gSet.clear();
     }
 
+    static class HorVertComp implements Comparator<OcrGraphic>
+    {
+        public int compare(OcrGraphic c1, OcrGraphic c2)
+        {
+            if(c1.getTextBlock().getBoundingBox().exactCenterY() > c2.getTextBlock().getBoundingBox().top){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().exactCenterY() > c1.getTextBlock().getBoundingBox().top){
+                return -1;
+            }
+            else if(c1.getTextBlock().getBoundingBox().exactCenterX() < c2.getTextBlock().getBoundingBox().left){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().exactCenterX() < c1.getTextBlock().getBoundingBox().left){
+                return -1;
+            }
+            else if(c1.getTextBlock().getBoundingBox().top > c2.getTextBlock().getBoundingBox().top){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().top > c1.getTextBlock().getBoundingBox().top){
+                return -1;
+            }
+            else if(c1.getTextBlock().getBoundingBox().left < c2.getTextBlock().getBoundingBox().left){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().left < c1.getTextBlock().getBoundingBox().left){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
+    static class VertHorComp implements Comparator<OcrGraphic>
+    {
+        public int compare(OcrGraphic c1, OcrGraphic c2)
+        {
+            if(c1.getTextBlock().getBoundingBox().exactCenterX() < c2.getTextBlock().getBoundingBox().left){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().exactCenterX() < c1.getTextBlock().getBoundingBox().left){
+                return -1;
+            }
+            else if(c1.getTextBlock().getBoundingBox().exactCenterY() > c2.getTextBlock().getBoundingBox().top){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().exactCenterY() > c1.getTextBlock().getBoundingBox().top){
+                return -1;
+            }
+            else if(c1.getTextBlock().getBoundingBox().left < c2.getTextBlock().getBoundingBox().left){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().left < c1.getTextBlock().getBoundingBox().left){
+                return -1;
+            }
+            else if(c1.getTextBlock().getBoundingBox().top > c2.getTextBlock().getBoundingBox().top){
+                return 1;
+            }
+            else if(c2.getTextBlock().getBoundingBox().top > c1.getTextBlock().getBoundingBox().top){
+                return -1;
+            }
+            else{
+                return 0;
+            }
+        }
+    }
+
     private void takePhoto() {
         HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
-        ArrayList<OcrGraphic> gArray = new ArrayList<>();
+        ArrayList<OcrGraphic> horVertArray = new ArrayList<>();
+        ArrayList<OcrGraphic> vertHorArray = new ArrayList<>();
 
         for (OcrGraphic e : graphics) {
-            gArray.add(e);
+            horVertArray.add(e);
+            vertHorArray.add(e);
         }
 
-        Collections.sort(gArray);
+        Collections.sort(horVertArray, new HorVertComp());
+        Collections.sort(vertHorArray, new VertHorComp());
 
-        gSet.add(gArray);
+        gSet.add(horVertArray);
+        gSet.add(vertHorArray);
 
         Fragment frg = null;
         frg = getFragmentManager().findFragmentByTag(this.getTag());
