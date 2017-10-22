@@ -161,10 +161,10 @@ public final class OcrCaptureFragment extends Fragment {
     }
 
     private void processPhotos() {
-        gSet.clear();
         Intent intent = new Intent(OcrCaptureFragment.this.getContext(), infoActivity.class);
         intent.putExtra("ITEM", new Content.Item(generateOutput()));
         startActivity(intent);
+        gSet.clear();
     }
 
     private void takePhoto() {
@@ -357,7 +357,7 @@ public final class OcrCaptureFragment extends Fragment {
         if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // We have permission, so create the camerasource
-            boolean autoFocus = false;
+            boolean autoFocus = true;
             boolean useFlash = false;
             createCameraSource(autoFocus, useFlash);
             return;
