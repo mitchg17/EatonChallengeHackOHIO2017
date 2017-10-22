@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
+import com.employeesofreality.eatonnameplaterecognition.text.parsing.ParseText;
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -43,6 +45,7 @@ import com.google.android.gms.vision.text.TextRecognizer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -119,15 +122,13 @@ public final class OcrCaptureFragment extends Fragment {
         gestureDetector = new GestureDetector(this.getActivity(), new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this.getActivity(), new ScaleListener());
 
-        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show();
-
         FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                generateOutput();
+                Intent intent = new Intent(OcrCaptureFragment.this.getContext(), infoActivity.class);
+                intent.putExtra("ITEM", new Content.Item(generateOutput()));
+                startActivity(intent);
             }
         });
 
@@ -393,13 +394,14 @@ public final class OcrCaptureFragment extends Fragment {
         return text != null;
     }
 
-    private void generateOutput(){
+    private HashMap<String, String> generateOutput(){
         HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
-        StringBuilder sb = new StringBuilder();
+        ArrayList<OcrGraphic> gArray = new ArrayList<OcrGraphic>();
         for(OcrGraphic e: graphics){
-            sb.append(e.getTextBlock().getValue() + " ");
+            gArray.add(e);
         }
-        String content = sb.toString();
+        Collections.sort(gArray);
+        return ParseText.parseArray(gArray);
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {

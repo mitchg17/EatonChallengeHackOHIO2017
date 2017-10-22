@@ -16,6 +16,7 @@ package com.employeesofreality.eatonnameplaterecognition.ui.camera;
  * limitations under the License.
  */
 
+import android.provider.UserDictionary;
 import android.util.Log;
 import android.util.SparseArray;
 
@@ -48,6 +49,7 @@ public class OcrDetectorProcessor implements Detector.Processor<TextBlock> {
         SparseArray<TextBlock> items = detections.getDetectedItems();
         for (int i = 0; i < items.size(); ++i) {
             TextBlock item = items.valueAt(i);
+
             if (item != null && item.getValue() != null) {
                 Log.d("OcrDetectorProcessor", "Text detected! " + item.getValue());
             }
