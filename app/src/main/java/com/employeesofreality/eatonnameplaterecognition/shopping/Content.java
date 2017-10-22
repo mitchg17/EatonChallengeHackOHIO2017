@@ -28,11 +28,13 @@ public class Content {
 
     private static final int COUNT = 10;
 
-    public static void addAnItem(Item item) {
-        addItem(item);
+    public static void removeAnItem(Item item) {
+        ITEMS.remove(item);
+        ITEM_MAP.remove(Integer.toString(item.hashCode()));
     }
 
-    private static void addItem(Item item) {
+
+    public static void addAnItem(Item item) {
         ITEMS.add(item);
         ITEM_MAP.put(Integer.toString(item.hashCode()), item);
     }

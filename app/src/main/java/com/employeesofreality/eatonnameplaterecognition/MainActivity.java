@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         Intent intent = new Intent(this,infoActivity.class);
         intent.putExtra("ITEM",item);
         startActivity(intent);
+
+        Content.removeAnItem(item);
     }
 
     /**
