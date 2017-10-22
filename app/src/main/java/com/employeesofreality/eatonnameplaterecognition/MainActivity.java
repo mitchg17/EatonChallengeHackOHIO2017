@@ -214,11 +214,9 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Nameplate Scanner";
                 case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
+                    return "Shopping Cart";
             }
             return null;
         }
