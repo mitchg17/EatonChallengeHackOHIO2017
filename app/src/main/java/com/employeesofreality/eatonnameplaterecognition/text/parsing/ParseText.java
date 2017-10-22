@@ -19,7 +19,7 @@ import java.util.Map;
 public class ParseText {
 
     private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
-            "GENERAL", "GO#", "GOH","GO","GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "VOLTS", "SERIAL","SER",
+            "GENERAL", "GO#", "GOH","GO" ,"GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "VOLTS", "SERIAL","SER",
             "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM","SIN"));
 
     private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
@@ -62,9 +62,9 @@ public class ParseText {
                             i++;
                         }
                         i++;
-                        if(tokens.get(i).matches("([(A-z0-9)]){10}-([0-9]){3}")) {
-                            values.put("OrderNumber", tokens.get(i));
-                        }
+                        //if(tokens.get(i).matches("([(A-z0-9)]){10}-([0-9]){3}")) {
+                        //}
+                        values.put("OrderNumber", tokens.get(i));
                         break;
                     case "CATALOG":
                     case "CAT":
