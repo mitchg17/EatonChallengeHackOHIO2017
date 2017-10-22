@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Mitchell on 10/21/2017.
@@ -34,6 +36,9 @@ public class ParseText {
             sb.append(mixedUp.get(i).getTextBlock().getValue() + " ");
         }
         String fullText = sb.toString();
+
+        String address = parseAddress(fullText);
+        values.put("PhysicalLocation", address);
 
         Tokenizer tokenizer = new Tokenizer(fullText);
         for(int i = 0; i < mixedUp.size(); i++) {
@@ -107,6 +112,15 @@ public class ParseText {
             }
         }
         return values;
+    }
+
+    private static String parseAddress(String text) {
+        Matcher matcher = Pattern.compile("(\\d+\\s[A-z]+\\s[A-z]+[,]+\\s+[A-z]+\\s+[A-z]+\\s+\\d+)").matcher(text);
+        boolean found = matcher.find();
+        if(found) {
+            return matcher.group(1);
+        }
+        return "";
     }
 
     private static Map<String, String> parseTextBlock(TextBlock mixedUp, Map<String, String> mymap, float brandChance) {
