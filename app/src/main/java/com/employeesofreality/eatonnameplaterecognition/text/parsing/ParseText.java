@@ -104,11 +104,18 @@ public class ParseText {
                                         i++;
                                     }
                                 }
-                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref")) {
+                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref") || tokens.get(i + 1).equalsIgnoreCase("ret")) {
                                     i++;
                                 }
                                 i++;
-                                values.put(str, tokens.get(i));
+                                if(str.equalsIgnoreCase("Voltage")){
+                                    if(tokens.get(i).matches("[0-9]\\w+")){
+                                        values.put(str, tokens.get(i));
+                                    }
+                                }
+                                else{
+                                    values.put(str, tokens.get(i));
+                                }
                             }
                         }
                     }
