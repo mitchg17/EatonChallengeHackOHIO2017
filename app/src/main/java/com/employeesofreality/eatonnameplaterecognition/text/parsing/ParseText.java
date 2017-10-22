@@ -118,6 +118,19 @@ public class ParseText {
                                         values.put(str, tokens.get(i));
                                     }
                                 }
+                                if(str.equalsIgnoreCase("ManufacturingLocation")){
+                                    if(tokens.get(i).length() == 1){
+                                        String location = "";
+                                        while(tokens.get(i+1).length() == 1){
+                                            location += tokens.get(i);
+                                            i++;
+                                        }
+                                        values.put(str, location);
+                                    }
+                                    else{
+                                        values.put(str, tokens.get(i));
+                                    }
+                                }
                                 else{
                                     values.put(str, tokens.get(i));
                                 }
