@@ -90,7 +90,7 @@ public class ParseText {
                     }
                 }
             }
-            if(tokens.get(i).toUpperCase().matches("([0-9])+([A-N,P-Z])") && !values.containsKey("UnitNumber")){
+            if(tokens.get(i).toUpperCase().matches("[0-9]{1}[A-N,P-Z]{1}") && !values.containsKey("UnitNumber")){
                 values.put("UnitNumber", tokens.get(i));
             } else if(tokens.get(i).toUpperCase().matches("([0-9]{1,2}[\\/][0-9]{4})") && !values.containsKey("ManufacturingDate")) {
                 values.put("ManufacturingDate", tokens.get(i));
