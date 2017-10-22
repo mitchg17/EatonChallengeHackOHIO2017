@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,13 +43,14 @@ public class ParseText {
         values.put("PhysicalLocation", address);
 
         Tokenizer tokenizer = new Tokenizer(fullText);
-        for(int i = 0; i < sortedTextBlocks.size(); i++) {
-            OcrGraphic ocrg = sortedTextBlocks.get(i);
-            TextBlock tb = ocrg.getTextBlock();
-            float brandChance = ((float)(sortedTextBlocks.get(i).getTextBlock().getCornerPoints()[0].y - sortedTextBlocks.get(0).getTextBlock().getCornerPoints()[0].y)/
-                    ((float)sortedTextBlocks.get(sortedTextBlocks.size()-1).getTextBlock().getCornerPoints()[2].y));
-            parseTextBlock(tb, values, brandChance);
-        }
+
+//        for(int i = 0; i < sortedTextBlocks.size(); i++) {
+//            OcrGraphic ocrg = sortedTextBlocks.get(i);
+//            TextBlock tb = ocrg.getTextBlock();
+//            float brandChance = ((float)(sortedTextBlocks.get(i).getTextBlock().getCornerPoints()[0].y - sortedTextBlocks.get(0).getTextBlock().getCornerPoints()[0].y)/
+//                    ((float)sortedTextBlocks.get(sortedTextBlocks.size()-1).getTextBlock().getCornerPoints()[2].y));
+//            parseTextBlock(tb, values, brandChance);
+//        }
 
         HashSet<String> s1 = new HashSet<>(Arrays.asList("CATALOG", "CAT", "CAT.", "STYLE","STY","TYL"));
         HashSet<String> s2 = new HashSet<>(Arrays.asList("GENERAL", "GO#", "GOH","GO" ,"GOR", "PO#", "POH"));
@@ -68,8 +70,26 @@ public class ParseText {
         categories.put("UnitNumber",s6);
         categories.put("DrawingNumber",s8);
 
+        HashSet<String> subsids = new HashSet<>();
+        subsids.add("UNIVAR");
+        subsids.add("UNIPUMP");
+        subsids.add("AUTOVAR");
+
+        values.put("Brand", "EATON");
+
         ArrayList<String>  tokens = tokenizer.getTokens();
         for (int i = 0; i < tokens.size(); i++){
+            for (String sub: subsids){
+                if(tokens.get(i).toUpperCase().contains(sub)){
+                    if(values.containsKey("Brand") && !values.get("Brand").equalsIgnoreCase(sub)){
+                        values.remove("Brand");
+                    }
+                    if(!values.containsKey("Brand")){
+                        values.put("Brand", sub);
+                    }
+                }
+            }
+
             for(String cat: categories.keySet()){
                 for(String keyW : categories.get(cat)) {
                     if (tokens.get(i).toUpperCase().endsWith(keyW)) {
