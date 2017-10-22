@@ -17,15 +17,27 @@
                 android:id="@+id/graphicOverlay"/>
         </com.employeesofreality.eatonnameplaterecognition.ui.camera.CameraSourcePreview>
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/camera_flash"
+        app:backgroundTint="@android:color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|top"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+
+        app:srcCompat="@android:drawable/star_big_off" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
+            app:backgroundTint="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="70dp"
             android:scaleX="1.5"
             android:scaleY="1.5"
-            app:srcCompat="@android:drawable/ic_dialog_email" />
+            app:srcCompat="@android:drawable/ic_menu_camera" />
 
 
 </FrameLayout>
