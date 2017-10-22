@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 import com.employeesofreality.eatonnameplaterecognition.shoppingFragment.OnListFragmentInteractionListener;
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content.Item;
 import java.util.List;
@@ -53,7 +55,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<MyItemRecycl
 
         }
         */
-        holder.mContentView.setText("Part " + (int)(position+1));
+        if(Content.ITEMS.get(position).values.get("Name").isEmpty()) {
+            Content.ITEMS.get(position).values.put("Name", "Part " + (int) (position + 1));
+        }
+        
+        holder.mContentView.setText(Content.ITEMS.get(position).values.get("Name"));
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

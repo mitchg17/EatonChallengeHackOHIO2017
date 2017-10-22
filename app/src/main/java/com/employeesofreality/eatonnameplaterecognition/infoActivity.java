@@ -33,7 +33,6 @@ public class infoActivity extends AppCompatActivity {
         }
 
         for(String temp : Content.Item.fields) {
-
             String strID = "@id/" + temp + "_field";
             int intID = super.getResources().getIdentifier(strID, "id", super.getPackageName());
             EditText edit = (EditText)findViewById(intID);

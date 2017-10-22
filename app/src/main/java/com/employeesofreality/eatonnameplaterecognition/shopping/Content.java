@@ -56,12 +56,9 @@ public class Content {
      * An item representing a piece of content.
      */
     public static class Item implements Serializable{
-        public static final String[] fields = {"Brand","CatalogNumber","OrderNumber","Range", "Voltage", "SerialNumber","UnitNumber","ManufacturingDate","ManufacturingLocation","PhysicalLocation","DrawingNumber"};
+        public static final String[] fields = {"Name","Brand","CatalogNumber","OrderNumber","Range", "Voltage", "SerialNumber","UnitNumber","ManufacturingDate","ManufacturingLocation","PhysicalLocation","DrawingNumber"};
         public final boolean isChecked;
         public HashMap<String,String> values;
-
-        public String id;
-        public String content;
 
         public Item(HashMap<String,String> map) {
             isChecked = false;
@@ -76,8 +73,6 @@ public class Content {
                     values.put(temp,"");
                 }
             }
-            id = values.get("Brand");
-            content = values.get("OrderNumber");
         }
 
 
