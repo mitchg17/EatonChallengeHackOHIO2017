@@ -25,7 +25,6 @@ public class infoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if(intent.hasExtra("ITEM"))
         {
-            Log.v("infoActivity", "you a bitch");
             part = (Content.Item)(intent.getSerializableExtra("ITEM"));
         }
         else
