@@ -469,7 +469,7 @@ public final class OcrCaptureFragment extends Fragment {
                     }
                 } else {
                     HashMap<String, Integer> newSubCountMap = new HashMap<>();
-                    newSubCountMap.put(inputMapPair.getValue(), 0);
+                    newSubCountMap.put(inputMapPair.getValue(), 1);
                     countMap.put(inputMapPair.getKey(), newSubCountMap);
                 }
             }
@@ -480,11 +480,9 @@ public final class OcrCaptureFragment extends Fragment {
             String value = "";
             int maxCount = 0;
             for(Map.Entry<String, Integer> valueCount : countEntry.getValue().entrySet()) {
-                if(valueCount.getValue() > maxCount) {
+                if(valueCount.getValue() > maxCount && !valueCount.getKey().equals("")) {
                     maxCount = valueCount.getValue();
-                    if(!valueCount.getKey().equals("")) {
-                        value = valueCount.getKey();
-                    }
+                    value = valueCount.getKey();
                 }
             }
             output.put(key, value);
