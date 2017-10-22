@@ -122,6 +122,8 @@ public class ParseText {
         }
 
         if(isBrand) {
+            text = text.replace("\'","");
+            text = text.replace("\"","");
             mymap.put("Brand", text);
         }
         return mymap;
