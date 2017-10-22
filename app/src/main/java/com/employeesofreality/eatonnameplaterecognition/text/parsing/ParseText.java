@@ -5,7 +5,6 @@ import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Map;
 
 public class ParseText {
 
-    private String[] keyWords = {"Brand", "Catalog Number", "Style Number", "Order",
+    private static String[] keyWords = {"Brand", "Catalog Number", "Style Number", "Order",
             "General Order", "GO#", "PO#", "Range", "Voltage", "Serial Number", "Serial no.",
             "Serial#", "Serial", "Unit Number", "Unit no.", "Unit#", "Unit", "Manufacturing Date", "Mfg Date", "Drawing Ref"};
 
@@ -24,8 +23,9 @@ public class ParseText {
         for(int i = 0; i < mixedUp.size(); i++) {
             OcrGraphic ocrg = mixedUp.get(i);
             TextBlock tb = ocrg.getTextBlock();
-            float blockChance = ((float)mixedUp.get(i).getTextBlock().getCornerPoints()[0].y)/((float)mixedUp.get(mixedUp.size()-1).getTextBlock().getCornerPoints()[2].y);
-            parseTextBlock(tb, pairs, blockChance);
+            float brandChance = ((float)(mixedUp.get(i).getTextBlock().getCornerPoints()[0].y - mixedUp.get(0).getTextBlock().getCornerPoints()[0].y)/
+                    ((float)mixedUp.get(mixedUp.size()-1).getTextBlock().getCornerPoints()[2].y));
+            parseTextBlock(tb, pairs, brandChance);
         }
         return pairs;
     }
@@ -34,7 +34,7 @@ public class ParseText {
         String text = mixedUp.getValue();
         boolean isBrand = false;
         if(brandChance < 0.3) {
-            if(text.contains("™") || text.contains("®")) {
+            if(text.contains("\'") || text.contains("\"")) {
                 isBrand = true;
             }
         }
@@ -42,12 +42,19 @@ public class ParseText {
             isBrand = false;
         }
         //TODO: Get each word and check it against keyWords.
-        text = text.replace(" ", "");
-//        for(String word : words) {
-//            if(text.contains(word)) {
-//
-//            }
-//        }
+        String[] words = text.split(" ");
+        for(String word : words) {
+            if(word.matches("([(A-z0-9)]){10}-([0-9]){3}")) {
+                mymap.put("Order Number", word);
+            }
+        }
+
+        for(int i = 0; i < keyWords.length; i++) {
+            String word = keyWords[i];
+            if(text.contains(word)) {
+
+            }
+        }
         if(isBrand) {
             mymap.put("Brand", text);
         }
