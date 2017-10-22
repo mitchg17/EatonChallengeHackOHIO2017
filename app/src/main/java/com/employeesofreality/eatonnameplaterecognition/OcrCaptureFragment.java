@@ -119,10 +119,6 @@ public final class OcrCaptureFragment extends Fragment {
         gestureDetector = new GestureDetector(this.getActivity(), new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this.getActivity(), new ScaleListener());
 
-        Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
-                Snackbar.LENGTH_LONG)
-                .show();
-
         FloatingActionButton fab = (FloatingActionButton) this.getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
