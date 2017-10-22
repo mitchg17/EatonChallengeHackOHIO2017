@@ -93,7 +93,10 @@ public class ParseText {
                 }
             }
             if(tokens.get(i).toUpperCase().matches("[0-9]{1}[A-N,P-Z]{1}") && !values.containsKey("UnitNumber")){
-                values.put("UnitNumber", tokens.get(i));
+                if(i-1 < 0 || !tokens.get(i-1).equalsIgnoreCase("nema")){
+                    values.put("UnitNumber", tokens.get(i));
+                }
+
             } else if(tokens.get(i).toUpperCase().matches("([0-9]{1,2}[\\/][0-9]{4})") && !values.containsKey("ManufacturingDate")) {
                 values.put("ManufacturingDate", tokens.get(i));
             }
@@ -114,7 +117,7 @@ public class ParseText {
                                 }
                                 i++;
                                 if(str.equalsIgnoreCase("Voltage")){
-                                    if(tokens.get(i).matches("[0-9]\\w+")){
+                                    if(tokens.get(i).matches("[0-9]+[V]{0,1}")){
                                         values.put(str, tokens.get(i));
                                     }
                                 }
