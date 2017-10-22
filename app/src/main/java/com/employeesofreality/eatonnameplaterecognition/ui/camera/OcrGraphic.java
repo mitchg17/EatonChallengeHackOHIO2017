@@ -21,6 +21,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.support.annotation.NonNull;
 
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.GraphicOverlay;
 import com.google.android.gms.vision.text.Text;
@@ -32,7 +33,7 @@ import java.util.List;
  * Graphic instance for rendering TextBlock position, size, and ID within an associated graphic
  * overlay view.
  */
-public class OcrGraphic extends GraphicOverlay.Graphic {
+public class OcrGraphic extends GraphicOverlay.Graphic implements Comparable{
 
     private int mId;
 
@@ -111,6 +112,15 @@ public class OcrGraphic extends GraphicOverlay.Graphic {
         rect.right = translateX(rect.right);
         rect.bottom = translateY(rect.bottom);
         canvas.drawRect(rect, sRectPaint);
+    }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        if(((OcrGraphic) o).getTextBlock().getCornerPoints()[0].y < this.getTextBlock().getCornerPoints()[0].y) {
+            return 1;
+        } else {
+            return -1;
+        }
     }
 }
 

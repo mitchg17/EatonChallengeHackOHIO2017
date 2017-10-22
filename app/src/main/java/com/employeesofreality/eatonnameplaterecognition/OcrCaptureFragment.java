@@ -40,6 +40,8 @@ import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 
 /**
@@ -88,7 +90,7 @@ public final class OcrCaptureFragment extends Fragment {
         mGraphicOverlay = (GraphicOverlay<OcrGraphic>) this.getActivity().findViewById(R.id.graphicOverlay);
 
         // read parameters from the intent used to launch the activity.
-        boolean autoFocus = false;
+        boolean autoFocus = true;
         boolean useFlash = false;
 
         // Check for the camera permission before accessing the camera.  If the
@@ -324,15 +326,16 @@ public final class OcrCaptureFragment extends Fragment {
         TextBlock text = null;
         if (graphic != null) {
             HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
-            StringBuilder sb = new StringBuilder();
+            ArrayList<OcrGraphic> gArray = new ArrayList<OcrGraphic>();
             for(OcrGraphic e: graphics){
-                sb.append(graphic.getTextBlock().getValue() + " ");
+                gArray.add(e);
             }
-            String content = sb.toString();
+            Collections.sort(gArray);
+
 
             if (text != null && text.getValue()!= null) {
                 Intent data = new Intent();
-                data.putExtra(TextBlockObject, content);
+                data.putExtra(TextBlockObject, "Wuzzup?");
                 getActivity().setResult(CommonStatusCodes.SUCCESS, data);
                 getActivity().finish();
             }
