@@ -60,6 +60,7 @@ public class ParseText {
         HashSet<String> s6 = new HashSet<>(Arrays.asList("UNIT", "UNIT#"));
         HashSet<String> s7 = new HashSet<>(Arrays.asList("MANUFACTURING", "MFG"));
         HashSet<String> s8 = new HashSet<>(Arrays.asList("DRAWING"));
+        HashSet<String> s9 = new HashSet<>(Arrays.asList("MADE"));
 
         HashMap<String,HashSet<String>> categories = new HashMap<String,HashSet<String>>();
         categories.put("CatalogNumber",s1);
@@ -70,6 +71,7 @@ public class ParseText {
         //categories.put("UnitNumber",s6);
         categories.put("DrawingNumber",s8);
         //categories.put("ManufacturingDate",s7);
+        categories.put("ManufacturingLocation", s9);
 
         HashSet<String> subsids = new HashSet<>();
         subsids.add("UNIVAR");
@@ -107,7 +109,7 @@ public class ParseText {
                                         i++;
                                     }
                                 }
-                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref") || tokens.get(i + 1).equalsIgnoreCase("ret") || tokens.get(i + 1).equalsIgnoreCase("rel")) {
+                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref") || tokens.get(i + 1).equalsIgnoreCase("ret") || tokens.get(i + 1).equalsIgnoreCase("rel") || tokens.get(i + 1).equalsIgnoreCase("in")) {
                                     i++;
                                 }
                                 i++;
