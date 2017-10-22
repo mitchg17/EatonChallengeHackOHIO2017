@@ -19,8 +19,8 @@ import java.util.Map;
 public class ParseText {
 
     private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
-            "GENERAL", "GO#", "GOH", "PO#", "POH", "RANGE", "VOLTAGE", "SERIAL",
-            "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING"));
+            "GENERAL", "GO#", "GOH","GO", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "SERIAL","SER",
+            "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM"));
 
     private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
             "General Order", "GO#", "PO#", "Range", "Voltage", "Serial Number", "Serial no.",
@@ -54,6 +54,7 @@ public class ParseText {
                         if(tokens.get(i+1).equalsIgnoreCase("number")){
                             i++;
                         }
+                    case "GO":
                     case "GO#":
                     case "GOH":
                     case "PO#":
@@ -74,9 +75,13 @@ public class ParseText {
                         break;
                     default:
                         break;
+                    case "ANG":
+                    case "ANGE":
                     case "RANGE":
                         values.put("Range", tokens.get(++i));
                         break;
+                    case "VO":
+                    case "OLT":
                     case "VOLTAGE":
                     case "VOLTS":
                         values.put("Voltage", tokens.get(++i));
@@ -85,6 +90,10 @@ public class ParseText {
                         if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
                             i++;
                         }
+                    case "SERIALH":
+                    case "SER":
+                    case "S/N":
+                    case "SM":
                     case "SERIAL#":
                         values.put("Serial #", tokens.get(++i));
                         break;
