@@ -131,6 +131,11 @@ public class ParseText {
                                         values.put(str, tokens.get(i));
                                     }
                                 }
+                                if(str.equalsIgnoreCase("CatalogNumber")){
+                                    if(!tokens.get(i).equalsIgnoreCase("phases")){
+                                        values.put(str, tokens.get(i));
+                                    }
+                                }
                                 else{
                                     values.put(str, tokens.get(i));
                                 }
