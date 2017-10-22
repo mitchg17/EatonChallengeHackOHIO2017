@@ -1,15 +1,9 @@
 package com.employeesofreality.eatonnameplaterecognition;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,15 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
-
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
-
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements shoppingFragment.OnListFragmentInteractionListener {
 

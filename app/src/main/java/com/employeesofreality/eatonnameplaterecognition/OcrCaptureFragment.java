@@ -18,11 +18,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -30,7 +27,6 @@ import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 import com.employeesofreality.eatonnameplaterecognition.text.parsing.ParseText;
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
@@ -43,7 +39,6 @@ import com.employeesofreality.eatonnameplaterecognition.ui.camera.GraphicOverlay
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrDetectorProcessor;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;

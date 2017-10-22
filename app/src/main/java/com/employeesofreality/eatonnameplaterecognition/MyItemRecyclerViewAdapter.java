@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.employeesofreality.eatonnameplaterecognition.shoppingFragment.OnListFragmentInteractionListener;
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content.Item;
-
 import java.util.List;
 
 /**

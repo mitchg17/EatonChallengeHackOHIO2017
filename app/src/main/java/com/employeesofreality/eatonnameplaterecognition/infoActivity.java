@@ -50,10 +50,10 @@ public class infoActivity extends AppCompatActivity {
             for(String temp : Content.Item.fields) {
                 String strID = "@id/" + temp + "_field";
                 int intID = super.getResources().getIdentifier(strID,"id",super.getPackageName());
-                //System.out.print(temp);
+
                 EditText edit = (EditText)findViewById(intID);
                 String input = edit.getText().toString();
-                //System.out.println(input);
+
 
                 map.put(temp,input);
             }
