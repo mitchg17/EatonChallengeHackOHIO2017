@@ -79,6 +79,16 @@ public final class OcrCaptureFragment extends Fragment {
         super();
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if(isVisibleToUser) {
+            if(this.getActivity() != null)
+                onResume();
+        } else {
+            onPause();
+        }
+    }
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
