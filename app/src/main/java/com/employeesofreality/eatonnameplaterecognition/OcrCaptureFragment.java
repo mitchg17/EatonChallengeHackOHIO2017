@@ -21,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Activity for the multi-tracker app.  This app detects text and displays the value with the
@@ -399,19 +401,21 @@ public final class OcrCaptureFragment extends Fragment {
         return text != null;
     }
 
-    private HashSet<HashMap<String, String>> generateOutput(){
+    private HashMap<String, String> generateOutput(){
         HashSet<HashMap<String, String>> textSet = new HashSet<>();
+        HashMap<String, String> output = new HashMap<>();
 
         for(int i = 0; i < PHOTOS_TO_CAPTURE; i++) {
             HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
-            ArrayList<OcrGraphic> gArray = new ArrayList<OcrGraphic>();
+            ArrayList<OcrGraphic> gArray = new ArrayList<>();
 
             for (OcrGraphic e : graphics) {
                 gArray.add(e);
             }
 
             Collections.sort(gArray);
-            textSet.add(ParseText.parseArray(gArray));
+            HashMap<String, String> parsedText = ParseText.parseArray(gArray);
+            textSet.add(parsedText);
             startCameraSource();
             
             try {
@@ -421,7 +425,43 @@ public final class OcrCaptureFragment extends Fragment {
             }
         }
 
-        return textSet;
+        findMostRecurringValues(textSet, output);
+
+        return output;
+    }
+
+    public static void findMostRecurringValues(HashSet<HashMap<String, String>> input, HashMap<String, String> output) {
+        HashMap<String, Map<String, Integer>> countMap = new HashMap<>();
+
+        for(HashMap<String, String> inputMap : input) {
+            for(Map.Entry<String, String> inputMapPair : inputMap.entrySet()) {
+                if(countMap.containsKey(inputMapPair.getKey())) {
+                    if(countMap.get(inputMapPair.getKey()).containsKey(inputMapPair.getValue())) {
+                        Integer newValue = countMap.get(inputMapPair.getKey()).get(inputMapPair.getValue()).intValue() + 1;
+                        countMap.get(inputMapPair.getKey()).put(inputMapPair.getValue(), newValue);
+                    } else {
+                        countMap.get(inputMapPair.getKey()).put(inputMapPair.getValue(), 1);
+                    }
+                } else {
+                    HashMap<String, Integer> newSubCountMap = new HashMap<>();
+                    newSubCountMap.put(inputMapPair.getValue(), 0);
+                    countMap.put(inputMapPair.getKey(), newSubCountMap);
+                }
+            }
+        }
+
+        for(Map.Entry<String, Map<String, Integer>> countEntry : countMap.entrySet()) {
+            String key = countEntry.getKey();
+            String value = "";
+            int maxCount = 0;
+            for(Map.Entry<String, Integer> valueCount : countEntry.getValue().entrySet()) {
+                if(valueCount.getValue() > maxCount) {
+                    maxCount = valueCount.getValue();
+                    value = valueCount.getKey();
+                }
+            }
+            output.put(key, value);
+        }
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
