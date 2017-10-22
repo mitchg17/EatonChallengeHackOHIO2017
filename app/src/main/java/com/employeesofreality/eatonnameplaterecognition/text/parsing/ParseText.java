@@ -121,10 +121,10 @@ public class ParseText {
                                         values.put(str, tokens.get(i));
                                     }
                                 }
-                                if(str.equalsIgnoreCase("ManufacturingLocation")){
+                                else if(str.equalsIgnoreCase("ManufacturingLocation")){
                                     if(tokens.get(i).length() == 1){
                                         String location = "";
-                                        while(tokens.get(i+1).length() == 1){
+                                        while(tokens.get(i).length() == 1){
                                             location += tokens.get(i);
                                             i++;
                                         }
@@ -134,7 +134,7 @@ public class ParseText {
                                         values.put(str, tokens.get(i));
                                     }
                                 }
-                                if(str.equalsIgnoreCase("CatalogNumber")){
+                                else if(str.equalsIgnoreCase("CatalogNumber")){
                                     if(!tokens.get(i).equalsIgnoreCase("phases")){
                                         values.put(str, tokens.get(i));
                                     }
