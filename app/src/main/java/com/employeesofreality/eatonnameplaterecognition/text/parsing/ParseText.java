@@ -1,9 +1,12 @@
 package com.employeesofreality.eatonnameplaterecognition.text.parsing;
 
+import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
 import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Created by Mitchell on 10/21/2017.
@@ -11,26 +14,50 @@ import java.util.HashSet;
 
 public class ParseText {
 
-    public static String[] parseSet(HashSet<TextBlock> mixedUp) {
-        for(TextBlock tb : mixedUp) {
+    private String[] keyWords = {"Brand", "Catalog Number", "Style Number", "Order",
+            "General Order", "GO#", "PO#", "Range", "Voltage", "Serial Number", "Serial no.",
+            "Serial#", "Serial", "Unit Number", "Unit no.", "Unit#", "Unit", "Manufacturing Date", "Mfg Date", "Drawing Ref"};
 
+
+    public static Map<String, String> parseArray(ArrayList<OcrGraphic> mixedUp) {
+        Map<String, String> pairs = new HashMap<String, String>();
+        for(int i = 0; i < mixedUp.size(); i++) {
+            OcrGraphic ocrg = mixedUp.get(i);
+            TextBlock tb = ocrg.getTextBlock();
+            float blockChance = ((float)mixedUp.get(i).getTextBlock().getCornerPoints()[0].y)/((float)mixedUp.get(mixedUp.size()-1).getTextBlock().getCornerPoints()[2].y);
+            parseTextBlock(tb, pairs, blockChance);
         }
-
-        String[] parts = new String[2];
-
-        return parts;
+        return pairs;
     }
 
-    public static String[] parseTextBlock(TextBlock mixedUp) {
-        String mixedString = mixedUp.getValue();
-
-        String[] parts = new String[2];
-
-        return parts;
+    private static Map<String, String> parseTextBlock(TextBlock mixedUp, Map<String, String> mymap, float brandChance) {
+        String text = mixedUp.getValue();
+        boolean isBrand = false;
+        if(brandChance < 0.3) {
+            if(text.contains("™") || text.contains("®")) {
+                isBrand = true;
+            }
+        }
+        if(mymap.containsKey("Brand")) {
+            isBrand = false;
+        }
+        //TODO: Get each word and check it against keyWords.
+        text = text.replace(" ", "");
+//        for(String word : words) {
+//            if(text.contains(word)) {
+//
+//            }
+//        }
+        if(isBrand) {
+            mymap.put("Brand", text);
+        }
+        return mymap;
     }
 
-    public static String[] parseSingleString(String myStr) {
-        String[] pair = new String[2];
+    public static Map<String, String> parseSingleString(String myStr) {
+
+        Map<String, String> pair = new HashMap<String, String>();
+
         return pair;
     }
 }
