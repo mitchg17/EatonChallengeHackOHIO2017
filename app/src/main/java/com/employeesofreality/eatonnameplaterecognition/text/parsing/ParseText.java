@@ -67,7 +67,7 @@ public class ParseText {
         categories.put("Range",s3);
         categories.put("Voltage",s4);
         categories.put("SerialNumber",s5);
-        categories.put("UnitNumber",s6);
+        //categories.put("UnitNumber",s6);
         categories.put("DrawingNumber",s8);
 
         HashSet<String> subsids = new HashSet<>();
@@ -88,6 +88,9 @@ public class ParseText {
                         values.put("Brand", sub);
                     }
                 }
+            }
+            if(tokens.get(i).toUpperCase().matches("([0-9])+([A-N,P-Z])") && !values.containsKey("UnitNumber")){
+                values.put("UnitNumber", tokens.get(i));
             }
 
             for(String cat: categories.keySet()){
