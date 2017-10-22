@@ -19,7 +19,7 @@ import java.util.Map;
 public class ParseText {
 
     private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
-            "GENERAL", "GO#", "GOH","GO","GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "SERIAL","SER",
+            "GENERAL", "GO#", "GOH","GO","GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "VOLTS", "SERIAL","SER",
             "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM","SIN"));
 
     private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
@@ -49,18 +49,18 @@ public class ParseText {
             if(keyWords.contains(tokens.get(i).toUpperCase())){
                 switch (tokens.get(i).toUpperCase()){
                     case "GENERAL":
-                        if(tokens.get(i+1).equalsIgnoreCase("order")){
-                            i++;
-                        }
-                        if(tokens.get(i+1).equalsIgnoreCase("number")){
-                            i++;
-                        }
                     case "GO":
                     case "GOR":
                     case "GO#":
                     case "GOH":
                     case "PO#":
                     case "POH":
+                        if(tokens.get(i+1).equalsIgnoreCase("order")){
+                            i++;
+                        }
+                        if(tokens.get(i+1).equalsIgnoreCase("number")){
+                            i++;
+                        }
                         i++;
                         if(tokens.get(i).matches("([(A-z0-9)]){10}-([0-9]){3}")) {
                             values.put("OrderNumber", tokens.get(i));
@@ -80,25 +80,28 @@ public class ParseText {
                     case "ANG":
                     case "ANGE":
                     case "RANGE":
-                        values.put("Range", tokens.get(++i));
+                        i++;
+                        values.put("Range", tokens.get(i));
                         break;
                     case "VO":
                     case "OLT":
                     case "VOLTAGE":
                     case "VOLTS":
-                        values.put("Voltage", tokens.get(++i));
+                        i++;
+                        values.put("Voltage", tokens.get(i));
                         break;
                     case "SERIAL":
-                        if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
-                            i++;
-                        }
                     case "SERIALH":
                     case "SER":
                     case "S/N":
                     case "SM":
                     case "SIN":
                     case "SERIAL#":
-                        values.put("SerialNumber", tokens.get(++i));
+                        if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
+                            i++;
+                        }
+                        i++;
+                        values.put("SerialNumber", tokens.get(i));
                         break;
                 }
             }
