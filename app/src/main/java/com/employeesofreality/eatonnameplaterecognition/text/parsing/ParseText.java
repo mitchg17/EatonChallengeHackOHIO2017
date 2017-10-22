@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class ParseText {
 
-    private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
+    private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE","STY","TYL",
             "GENERAL", "GO#", "GOH","GO" ,"GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "VOLTS", "SERIAL","SER",
             "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM","SIN"));
 
@@ -69,6 +69,9 @@ public class ParseText {
                     case "CATALOG":
                     case "CAT":
                     case "CAT.":
+                    case "STYLE":
+                    case "STY":
+                    case "TYL":
                         if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
                             i++;
                         }
