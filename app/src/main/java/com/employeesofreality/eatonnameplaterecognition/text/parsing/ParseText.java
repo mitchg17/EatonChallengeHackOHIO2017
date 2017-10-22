@@ -20,8 +20,8 @@ import java.util.regex.Pattern;
 
 public class ParseText {
 
-    private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
-            "GENERAL", "GO#", "GOH","GO","GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "VOLTS", "SERIAL","SER",
+    private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE","STY","TYL",
+            "GENERAL", "GO#", "GOH","GO" ,"GOR", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "VOLTS", "SERIAL","SER",
             "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM","SIN"));
 
     private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
@@ -67,13 +67,16 @@ public class ParseText {
                             i++;
                         }
                         i++;
-                        if(tokens.get(i).matches("([(A-z0-9)]){10}-([0-9]){3}")) {
-                            values.put("OrderNumber", tokens.get(i));
-                        }
+                        //if(tokens.get(i).matches("([(A-z0-9)]){10}-([0-9]){3}")) {
+                        //}
+                        values.put("OrderNumber", tokens.get(i));
                         break;
                     case "CATALOG":
                     case "CAT":
                     case "CAT.":
+                    case "STYLE":
+                    case "STY":
+                    case "TYL":
                         if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
                             i++;
                         }
@@ -136,6 +139,8 @@ public class ParseText {
         }
 
         if(isBrand) {
+            text = text.replace("\'","");
+            text = text.replace("\"","");
             mymap.put("Brand", text);
         }
         return mymap;
