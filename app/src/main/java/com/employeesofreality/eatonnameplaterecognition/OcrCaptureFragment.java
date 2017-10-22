@@ -72,6 +72,9 @@ public final class OcrCaptureFragment extends Fragment {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    private boolean flashOn = false;
+    private FloatingActionButton flashButton;
+
     public OcrCaptureFragment() {
         super();
     }
@@ -118,6 +121,27 @@ public final class OcrCaptureFragment extends Fragment {
             }
         });
 
+        flashButton = (FloatingActionButton) this.getActivity().findViewById(R.id.camera_flash);
+        flashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleFlash();
+            }
+        });
+    }
+
+    private void toggleFlash() {
+        if(flashOn) {
+            flashOn = false;
+            createCameraSource(true, false);
+            flashButton.setImageResource(android.R.drawable.star_big_off);
+            startCameraSource();
+        } else {
+            flashOn = true;
+            createCameraSource(true, true);
+            flashButton.setImageResource(android.R.drawable.star_big_on);
+            startCameraSource();
+        }
     }
 
     /**
