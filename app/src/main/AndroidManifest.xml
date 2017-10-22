@@ -21,15 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".OcrCaptureFragment"
-            android:label="Ocr Capture" />
+ /
 
         <uses-permission android:name="android.permission.CAMERA" />
 
         <uses-feature android:name="android.hardware.camera" />
 
-        <activity android:name=".infoActivity"></activity>
+        <activity android:name=".infoActivity" />
+        <activity android:name=".exportActivity"></activity>
     </application>
 
 </manifest>
