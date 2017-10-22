@@ -4,7 +4,10 @@ import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
 import com.google.android.gms.vision.text.TextBlock;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -13,21 +16,78 @@ import java.util.Map;
 
 public class ParseText {
 
-    private static String[] keyWords = {"Brand", "Catalog Number", "Style Number", "Order",
+    private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
+            "GENERAL", "GO#", "PO#", "RANGE", "VOLTAGE", "SERIAL",
+            "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING"));
+
+    private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
             "General Order", "GO#", "PO#", "Range", "Voltage", "Serial Number", "Serial no.",
             "Serial#", "Serial", "Unit Number", "Unit no.", "Unit#", "Unit", "Manufacturing Date", "Mfg Date", "Drawing Ref"};
 
 
-    public static Map<String, String> parseArray(ArrayList<OcrGraphic> mixedUp) {
-        Map<String, String> pairs = new HashMap<String, String>();
+    public static HashMap<String, String> parseArray(ArrayList<OcrGraphic> mixedUp) {
+        HashMap<String, String> values = new HashMap<String, String>();
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0;i < mixedUp.size(); i++){
+            sb.append(mixedUp.get(i) + " ");
+        }
+        String fullText = sb.toString();
+        Tokenizer tokenizer = new Tokenizer(fullText);
         for(int i = 0; i < mixedUp.size(); i++) {
             OcrGraphic ocrg = mixedUp.get(i);
             TextBlock tb = ocrg.getTextBlock();
             float brandChance = ((float)(mixedUp.get(i).getTextBlock().getCornerPoints()[0].y - mixedUp.get(0).getTextBlock().getCornerPoints()[0].y)/
                     ((float)mixedUp.get(mixedUp.size()-1).getTextBlock().getCornerPoints()[2].y));
-            parseTextBlock(tb, pairs, brandChance);
+            parseTextBlock(tb, values, brandChance);
         }
-        return pairs;
+
+        ArrayList<String>  tokens = tokenizer.getTokens();
+        for (int i = 0; i < tokens.size(); i++){
+            if(keyWords.contains(tokens.get(i).toUpperCase())){
+                switch (tokens.get(i).toUpperCase()){
+                    case "GENERAL":
+                        if(tokens.get(i+1).equalsIgnoreCase("order")){
+                            i++;
+                        }
+                        if(tokens.get(i+1).equalsIgnoreCase("number")){
+                            i++;
+                        }
+                    case "GO#":
+                    case "PO#":
+                        i++;
+                        if(tokens.get(i).matches("([(A-z0-9)]){10}-([0-9]){3}")) {
+                            values.put("OrderNumber", tokens.get(i));
+                        }
+                        break;
+                    case "CATALOG":
+                    case "CAT":
+                    case "CAT.":
+                        if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
+                            i++;
+                        }
+                        i++;
+                        values.put("CatalogNumber", tokens.get(i));
+                        break;
+                    default:
+                        break;
+                    case "RANGE":
+                        values.put("Range", tokens.get(++i));
+                        break;
+                    case "VOLTAGE":
+                    case "VOLTS":
+                        values.put("Voltage", tokens.get(++i));
+                        break;
+                    case "SERIAL":
+                        if(tokens.get(i+1).equalsIgnoreCase("number") || tokens.get(i+1).equalsIgnoreCase("no") || tokens.get(i+1).equalsIgnoreCase("no.")){
+                            i++;
+                        }
+                    case "SERIAL#":
+                        values.put("Serial #", tokens.get(++i));
+                        break;
+                }
+            }
+        }
+        return values;
     }
 
     private static Map<String, String> parseTextBlock(TextBlock mixedUp, Map<String, String> mymap, float brandChance) {
@@ -41,20 +101,7 @@ public class ParseText {
         if(mymap.containsKey("Brand")) {
             isBrand = false;
         }
-        //TODO: Get each word and check it against keyWords.
-        String[] words = text.split(" ");
-        for(String word : words) {
-            if(word.matches("([(A-z0-9)]){10}-([0-9]){3}")) {
-                mymap.put("Order Number", word);
-            }
-        }
 
-        for(int i = 0; i < keyWords.length; i++) {
-            String word = keyWords[i];
-            if(text.contains(word)) {
-
-            }
-        }
         if(isBrand) {
             mymap.put("Brand", text);
         }
