@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 
@@ -47,8 +48,17 @@ public class infoActivity extends AppCompatActivity {
 
             for(String temp : Content.Item.fields) {
                 String strID = "@id/" + temp + "_field";
+                int intID = super.getResources().getIdentifier(strID,"id",super.getPackageName());
+                //System.out.print(temp);
+                EditText edit = (EditText)findViewById(intID);
+                String input = edit.getText().toString();
+                //System.out.println(input);
 
+                map.put(temp,input);
             }
+            part.values.clear();
+            part.values.putAll(map);
+            //Content.addAnItem(part);
         }
         else if(id == R.id.doc_button) {
 

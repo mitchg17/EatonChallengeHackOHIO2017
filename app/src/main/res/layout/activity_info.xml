@@ -65,7 +65,7 @@
             android:layout_height="match_parent"/>
         <EditText android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/serial_field"/>
+            android:id="@+id/SerialNumber_field"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

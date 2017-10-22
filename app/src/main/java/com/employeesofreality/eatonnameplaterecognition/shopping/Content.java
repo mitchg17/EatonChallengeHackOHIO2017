@@ -28,10 +28,13 @@ public class Content {
 
     private static final int COUNT = 10;
 
+    public static void addAnItem(Item item) {
+        addItem(item);
+    }
 
     private static void addItem(Item item) {
         ITEMS.add(item);
-        //ITEM_MAP.put(item.id, item);
+        ITEM_MAP.put(Integer.toString(item.hashCode()), item);
     }
 
     private static Item createItem(HashMap<String,String> map) {
@@ -69,6 +72,8 @@ public class Content {
                 }
             }
         }
+
+
 
         @Override
         public String toString() {
