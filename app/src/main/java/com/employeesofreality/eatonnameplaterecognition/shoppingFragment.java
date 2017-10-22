@@ -20,7 +20,7 @@ import com.employeesofreality.eatonnameplaterecognition.shopping.Content.Item;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class shoppingFragment extends ListFragment {
+public class shoppingFragment extends Fragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";

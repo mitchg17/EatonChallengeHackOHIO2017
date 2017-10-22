@@ -58,7 +58,10 @@ public class infoActivity extends AppCompatActivity {
             }
             part.values.clear();
             part.values.putAll(map);
-            //Content.addAnItem(part);
+            Content.addAnItem(part);
+
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
         }
         else if(id == R.id.doc_button) {
 
