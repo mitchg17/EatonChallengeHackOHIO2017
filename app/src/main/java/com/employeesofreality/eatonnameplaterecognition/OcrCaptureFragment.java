@@ -54,6 +54,9 @@ import java.util.HashSet;
  * size, and contents of each TextBlock.
  */
 public final class OcrCaptureFragment extends Fragment {
+    public static final int PHOTOS_TO_CAPTURE = 3;
+    public static final int PHOTO_DELAY_TIME = 500;
+
     private static final String TAG = "OcrCaptureFragment";
 
     // Intent request code to handle updating play services if needed.
@@ -77,6 +80,7 @@ public final class OcrCaptureFragment extends Fragment {
 
     private boolean flashOn = false;
     private FloatingActionButton flashButton;
+    private OcrDetectorProcessor ocrDetectorProcessor;
 
     public OcrCaptureFragment() {
         super();
@@ -212,7 +216,8 @@ public final class OcrCaptureFragment extends Fragment {
         // is set to receive the text recognition results and display graphics for each text block
         // on screen.
         TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
-        textRecognizer.setProcessor(new OcrDetectorProcessor(mGraphicOverlay));
+        ocrDetectorProcessor = new OcrDetectorProcessor(mGraphicOverlay);
+        textRecognizer.setProcessor(ocrDetectorProcessor);
 
         if (!textRecognizer.isOperational()) {
             // Note: The first time that an app using a Vision API is installed on a
@@ -394,14 +399,29 @@ public final class OcrCaptureFragment extends Fragment {
         return text != null;
     }
 
-    private HashMap<String, String> generateOutput(){
-        HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
-        ArrayList<OcrGraphic> gArray = new ArrayList<OcrGraphic>();
-        for(OcrGraphic e: graphics){
-            gArray.add(e);
+    private HashSet<HashMap<String, String>> generateOutput(){
+        HashSet<HashMap<String, String>> textSet = new HashSet<>();
+
+        for(int i = 0; i < PHOTOS_TO_CAPTURE; i++) {
+            HashSet<OcrGraphic> graphics = mGraphicOverlay.getHashSet();
+            ArrayList<OcrGraphic> gArray = new ArrayList<OcrGraphic>();
+
+            for (OcrGraphic e : graphics) {
+                gArray.add(e);
+            }
+
+            Collections.sort(gArray);
+            textSet.add(ParseText.parseArray(gArray));
+            startCameraSource();
+            
+            try {
+                Thread.sleep(PHOTO_DELAY_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-        Collections.sort(gArray);
-        return ParseText.parseArray(gArray);
+
+        return textSet;
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
