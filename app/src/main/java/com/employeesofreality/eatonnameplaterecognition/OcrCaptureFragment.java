@@ -247,7 +247,7 @@ public final class OcrCaptureFragment extends Fragment {
         Collections.sort(vertHorArray, new VertHorComp());
 
         gSet.add(horVertArray);
-        gSet.add(vertHorArray);
+        //gSet.add(vertHorArray);
 
         Fragment frg = null;
         frg = getFragmentManager().findFragmentByTag(this.getTag());
