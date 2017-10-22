@@ -2,6 +2,7 @@ package com.employeesofreality.eatonnameplaterecognition.text.parsing;
 
 import android.util.Log;
 
+import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 import com.employeesofreality.eatonnameplaterecognition.ui.camera.OcrGraphic;
 import com.google.android.gms.vision.text.TextBlock;
 
@@ -49,9 +50,45 @@ public class ParseText {
             parseTextBlock(tb, values, brandChance);
         }
 
+        HashSet<String> s1 = new HashSet<>(Arrays.asList("CATALOG", "CAT", "CAT.", "STYLE","STY","TYL"));
+        HashSet<String> s2 = new HashSet<>(Arrays.asList("GENERAL", "GO#", "GOH","GO" ,"GOR", "PO#", "POH"));
+        HashSet<String> s3 = new HashSet<>(Arrays.asList("RANGE","ANG","ANGE"));
+        HashSet<String> s4 = new HashSet<>(Arrays.asList("VOLTAGE","VO","OLT", "VOLTS"));
+        HashSet<String> s5 = new HashSet<>(Arrays.asList("SERIAL","SER", "SERIAL#","SERIALH","S/N","SM","SIN"));
+        HashSet<String> s6 = new HashSet<>(Arrays.asList("UNIT", "UNIT#"));
+        HashSet<String> s7 = new HashSet<>(Arrays.asList("MANUFACTURING", "MFG"));
+        HashSet<String> s8 = new HashSet<>(Arrays.asList("DRAWING"));
+
+        HashMap<String,HashSet<String>> categories = new HashMap<String,HashSet<String>>();
+        categories.put("CatalogNumber",s1);
+        categories.put("OrderNumber",s2);
+        categories.put("Range",s3);
+        categories.put("Voltage",s4);
+        categories.put("SerialNumber",s5);
+        categories.put("UnitNumber",s6);
+        categories.put("DrawingNumber",s8);
+
         ArrayList<String>  tokens = tokenizer.getTokens();
         for (int i = 0; i < tokens.size(); i++){
-            if(keyWords.contains(tokens.get(i).toUpperCase())){
+            for(String cat: categories.keySet()){
+                for(String keyW : categories.get(cat)) {
+                    if (tokens.get(i).toUpperCase().endsWith(keyW)) {
+                        for (String str : categories.keySet()) {
+                            HashSet<String> temp = categories.get(str);
+                            if (temp.contains(keyW)) {
+                                if (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("no.")) {
+                                    i++;
+                                    if (str.equalsIgnoreCase("OrderNumber")) {
+                                        i++;
+                                    }
+                                }
+                                i++;
+                                values.put(str, tokens.get(i));
+                            }
+                        }
+                    }
+                }
+           /*if(keyWords.contains(tokens.get(i).toUpperCase())){
                 switch (tokens.get(i).toUpperCase()){
                     case "GENERAL":
                     case "GO":
@@ -112,6 +149,7 @@ public class ParseText {
                         values.put("SerialNumber", tokens.get(i));
                         break;
                 }
+                */
             }
         }
         return values;
