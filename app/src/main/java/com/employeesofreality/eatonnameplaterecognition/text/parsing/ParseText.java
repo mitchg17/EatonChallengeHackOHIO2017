@@ -20,7 +20,7 @@ public class ParseText {
 
     private static HashSet<String> keyWords = new HashSet<String>(Arrays.asList("BRAND", "CATALOG", "CAT", "CAT.", "STYLE",
             "GENERAL", "GO#", "GOH","GO", "PO#", "POH", "RANGE","ANG","ANGE", "VOLTAGE","VO","OLT", "SERIAL","SER",
-            "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM"));
+            "SERIAL#", "UNIT", "UNIT#", "MANUFACTURING", "MFG", "DRAWING","SERIALH","S/N","SM","SIN"));
 
     private static String[] fat = {"Brand", "Catalog Number", "Style Number", "Order",
             "General Order", "GO#", "PO#", "Range", "Voltage", "Serial Number", "Serial no.",
@@ -95,8 +95,9 @@ public class ParseText {
                     case "SER":
                     case "S/N":
                     case "SM":
+                    case "SIN":
                     case "SERIAL#":
-                        values.put("Serial #", tokens.get(++i));
+                        values.put("SerialNumber", tokens.get(++i));
                         break;
                 }
             }
