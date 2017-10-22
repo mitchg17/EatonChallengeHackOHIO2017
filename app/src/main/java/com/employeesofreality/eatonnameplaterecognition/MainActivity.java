@@ -1,10 +1,12 @@
 package com.employeesofreality.eatonnameplaterecognition;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -84,23 +86,47 @@ public class MainActivity extends AppCompatActivity implements shoppingFragment.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
+        /*
         if (id == R.id.action_settings)
         {
             return true;
         }
-        else if(id == R.id.action_manual)
+        */
+        if(id == R.id.action_manual)
         {
             Intent intent = new Intent(this,infoActivity.class);
             startActivity(intent);
         }
+        /*
         else if(id == R.id.action_clear)
         {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            for(Content.Item temp : Content.ITEMS) {
+                                Content.ITEMS.remove(temp);
+                                Content.ITEM_MAP.remove(Integer.toString(temp.hashCode()));
+                            }
 
+                            break;
 
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
         }
+        */
         else if(id == R.id.action_export)
         {
-
+            Intent intent = new Intent(this, exportActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
