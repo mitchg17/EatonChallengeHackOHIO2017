@@ -53,7 +53,7 @@ public class ParseText {
 //        }
 
         HashSet<String> s1 = new HashSet<>(Arrays.asList("CATALOG", "CAT", "CAT.", "STYLE","STY","TYL"));
-        HashSet<String> s2 = new HashSet<>(Arrays.asList("GENERAL", "GO#", "GOH","GO" ,"GOR", "PO#", "POH"));
+        HashSet<String> s2 = new HashSet<>(Arrays.asList("GENERAL", "GOH", "GO" ,"GOR", "PO", "POH"));
         HashSet<String> s3 = new HashSet<>(Arrays.asList("RANGE","ANG","ANGE"));
         HashSet<String> s4 = new HashSet<>(Arrays.asList("VOLTAGE","VO","OLT", "VOLTS"));
         HashSet<String> s5 = new HashSet<>(Arrays.asList("SERIAL","SER", "SERIAL#","SERIALH","S/N","SM","SIN"));
@@ -101,7 +101,7 @@ public class ParseText {
                                         i++;
                                     }
                                 }
-                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("no.") || tokens.get(i + 1).equalsIgnoreCase("ref.")) {
+                                while (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("ref")) {
                                     i++;
                                 }
                                 i++;

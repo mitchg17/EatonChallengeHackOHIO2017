@@ -19,6 +19,8 @@ public class Tokenizer {
         skips.add(':');
         skips.add('\n');
         skips.add('\t');
+        skips.add('.');
+        skips.add('#');
     }
 
     public Tokenizer(String text){
