@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content;
 import com.employeesofreality.eatonnameplaterecognition.shopping.Content.Item;
 
+import java.util.ArrayList;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -71,6 +73,12 @@ public class shoppingFragment extends Fragment {
             recyclerView.setAdapter(new MyItemRecyclerViewAdapter(Content.ITEMS, mListener));
         }
         return view;
+    }
+
+    public void clear() {
+        Content.ITEMS = new ArrayList<Item>();
+        Content.ITEM_MAP.clear();
+        getAdapter().notifyDataSetChanged();
     }
 
 
