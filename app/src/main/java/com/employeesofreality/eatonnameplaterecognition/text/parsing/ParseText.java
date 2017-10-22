@@ -76,7 +76,7 @@ public class ParseText {
                         for (String str : categories.keySet()) {
                             HashSet<String> temp = categories.get(str);
                             if (temp.contains(keyW)) {
-                                if (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("no.")) {
+                                if (tokens.get(i + 1).equalsIgnoreCase("number") || tokens.get(i + 1).equalsIgnoreCase("no") || tokens.get(i + 1).equalsIgnoreCase("no.") || tokens.get(i + 1).equalsIgnoreCase("Ref.")) {
                                     i++;
                                     if (str.equalsIgnoreCase("OrderNumber")) {
                                         i++;
