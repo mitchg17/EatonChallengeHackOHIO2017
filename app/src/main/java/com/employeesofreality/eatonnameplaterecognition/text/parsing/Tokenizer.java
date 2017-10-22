@@ -3,14 +3,15 @@ package com.employeesofreality.eatonnameplaterecognition.text.parsing;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Created by Mitchell on 10/21/2017.
  */
 
 public class Tokenizer {
-    private ArrayList<String> tokens;
-    private static Set<Character> skips;
+    private ArrayList<String> tokens = new ArrayList<>();
+    private static Set<Character> skips = new ConcurrentSkipListSet<>();
 
     static{
        skips.add(' ');

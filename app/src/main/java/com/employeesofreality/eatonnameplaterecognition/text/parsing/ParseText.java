@@ -29,7 +29,7 @@ public class ParseText {
         HashMap<String, String> values = new HashMap<String, String>();
         StringBuilder sb = new StringBuilder();
         for(int i = 0;i < mixedUp.size(); i++){
-            sb.append(mixedUp.get(i) + " ");
+            sb.append(mixedUp.get(i).getTextBlock().getValue() + " ");
         }
         String fullText = sb.toString();
         Tokenizer tokenizer = new Tokenizer(fullText);
